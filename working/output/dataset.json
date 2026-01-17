@@ -1,0 +1,11 @@
+{
+    "channel_names": {
+        "0": "Signals"
+    },
+    "labels": {
+        "background": 0,
+        "signal": 1
+    },
+    "numTraining": 20000,
+    "file_ending": ".png"
+}
