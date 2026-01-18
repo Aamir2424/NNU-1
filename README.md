@@ -66,6 +66,102 @@ python ecg_digitize.py --input ./test_images/ecg.jpg --verbose
 
 ---
 
+## Running in Terminal
+
+### Scenario 1: Starting Fresh in a New Terminal
+
+**Every time you open a new terminal, run these commands:**
+
+```bash
+# Navigate to the project directory
+cd "/Users/aamiribrahim/Downloads/ECG STUFF/kaggle copy 2"
+
+# Set up environment variables (required for nnU-Net)
+export nnUNet_results="$(pwd)/working/nnUNet_results"
+export nnUNet_raw="$(pwd)/working/nnUNet_raw"
+export nnUNet_preprocessed="$(pwd)/working/nnUNet_preprocessed"
+
+# Run the digitization
+python ecg_digitize.py --input ./test_images/your_image.jpg
+```
+
+**Or as a single command (copy and paste this entire line):**
+
+```bash
+cd "/Users/aamiribrahim/Downloads/ECG STUFF/kaggle copy 2" && export nnUNet_results="$(pwd)/working/nnUNet_results" && export nnUNet_raw="$(pwd)/working/nnUNet_raw" && export nnUNet_preprocessed="$(pwd)/working/nnUNet_preprocessed" && python ecg_digitize.py --input ./test_images/your_image.jpg
+```
+
+### Scenario 2: Already in the Project Folder
+
+**If you're already in the project directory:**
+
+```bash
+# Just run the digitization (if exports are still active)
+python ecg_digitize.py --input ./test_images/your_image.jpg
+```
+
+**If you get an error, reset the environment variables:**
+
+```bash
+export nnUNet_results="$(pwd)/working/nnUNet_results"
+export nnUNet_raw="$(pwd)/working/nnUNet_raw"
+export nnUNet_preprocessed="$(pwd)/working/nnUNet_preprocessed"
+
+python ecg_digitize.py --input ./test_images/your_image.jpg
+```
+
+### Common Use Cases
+
+**Process a single image:**
+
+```bash
+python ecg_digitize.py --input ./test_images/2.png
+```
+
+**Process all images in folder:**
+
+```bash
+python ecg_digitize.py --input ./test_images/
+```
+
+**Run with verbose output for debugging:**
+
+```bash
+python ecg_digitize.py --input ./test_images/2.png --verbose
+```
+
+**Check available images:**
+
+```bash
+ls test_images/
+```
+
+**View results:**
+
+```bash
+ls working/results/
+```
+
+### Pro Tip: Easy Setup Alias
+
+**Add this to your `~/.zshrc` to make life easier:**
+
+```bash
+echo 'alias ecg-setup="cd \"/Users/aamiribrahim/Downloads/ECG STUFF/kaggle copy 2\" && export nnUNet_results=\"\$(pwd)/working/nnUNet_results\" && export nnUNet_raw=\"\$(pwd)/working/nnUNet_raw\" && export nnUNet_preprocessed=\"\$(pwd)/working/nnUNet_preprocessed\""' >> ~/.zshrc
+source ~/.zshrc
+```
+
+**Then in any new terminal, just type:**
+
+```bash
+ecg-setup
+python ecg_digitize.py --input ./test_images/your_image.jpg
+```
+
+This saves you from typing the long setup commands every time!
+
+---
+
 ## Directory Structure
 
 ```
