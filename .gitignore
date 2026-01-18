@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Virtual environment
+backend/venv/
+
+# nnUNet large/generated folders
+backend/working/nnUNet_raw/
+backend/working/nnUNet_preprocessed/
+backend/working/nnUNet_results/
+backend/working/output-ensemble/
+backend/working/uploads/
+backend/working/input/
+backend/working/results/
+
+# Node
+frontend/node_modules/
+
+# OS
+.DS_Store
+
+# Environment variables
+.env
