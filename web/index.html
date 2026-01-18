@@ -15,15 +15,492 @@
         font-family:
           -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
           sans-serif;
-        background: linear-gradient(
-          135deg,
-          #1a1a2e 0%,
-          #16213e 50%,
-          #0f3460 100%
-        );
+        background: #ffffff;
         min-height: 100vh;
-        color: #fff;
+        color: #000;
       }
+
+      /* ═══════════════════════════════════════════════════════════════════
+         SCROLL STORY SECTION - Premium Scrollytelling Intro
+         ═══════════════════════════════════════════════════════════════════ */
+
+      /* Main Scroll Container */
+      .scroll-story {
+        position: relative;
+        height: 500vh;
+        width: 100%;
+      }
+
+      /* Sticky Canvas Container */
+      .scroll-story__canvas-container {
+        position: sticky;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+        overflow: hidden;
+      }
+
+      .scroll-story__canvas {
+        max-width: 90vw;
+        max-height: 90vh;
+        object-fit: contain;
+        border-radius: 12px;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+      }
+
+      /* Frame Loading Spinner */
+      .scroll-story__loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        z-index: 100;
+      }
+
+      .scroll-story__loader-spinner {
+        width: 80px;
+        height: 80px;
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-top-color: #000000;
+        border-radius: 50%;
+        animation: scrollStorySpinLoader 1s linear infinite;
+      }
+
+      .scroll-story__loader-text {
+        color: rgba(0, 0, 0, 0.9);
+        font-size: 1.1rem;
+        font-weight: 500;
+      }
+
+      .scroll-story__loader-progress {
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 0.9rem;
+      }
+
+      .scroll-story__loader.hidden {
+        display: none;
+      }
+
+      @keyframes scrollStorySpinLoader {
+        to {
+          transform: translate(-50%, -50%) rotate(360deg);
+        }
+      }
+
+      /* Text Overlays - Base Styles */
+      .scroll-story__text {
+        position: absolute;
+        opacity: 0;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+        pointer-events: none;
+        z-index: 50;
+      }
+
+      .scroll-story__text.visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* Glass Card Style */
+      .scroll-story__card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+        padding: clamp(20px, 4vw, 40px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Text 1: Hero Title (Center) */
+      .scroll-story__text--1 {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: 90%;
+        max-width: 800px;
+      }
+
+      .scroll-story__text--1.visible {
+        transform: translate(-50%, -50%);
+      }
+
+      .scroll-story__hero-badge {
+        display: inline-block;
+        background: rgba(0, 0, 0, 0.05);
+        border: 2px solid rgba(0, 0, 0, 0.2);
+        border-radius: 30px;
+        padding: 10px 24px;
+        font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+        font-weight: 600;
+        letter-spacing: 2px;
+        color: #000000;
+        margin-bottom: 24px;
+        text-transform: uppercase;
+      }
+
+      .scroll-story__hero-title {
+        font-size: clamp(2.5rem, 8vw, 5rem);
+        font-weight: 800;
+        color: #000000;
+        line-height: 1.1;
+        margin-bottom: 20px;
+      }
+
+      .scroll-story__hero-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.5rem);
+        color: rgba(0, 0, 0, 0.7);
+        font-weight: 400;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      /* Text 2: Paper to Pixels (Left) */
+      .scroll-story__text--2 {
+        top: 50%;
+        left: clamp(20px, 5vw, 80px);
+        transform: translateY(-50%) translateX(-30px);
+        max-width: min(450px, 40vw);
+      }
+
+      .scroll-story__text--2.visible {
+        transform: translateY(-50%) translateX(0);
+      }
+
+      .scroll-story__card-title {
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        font-weight: 700;
+        color: #000000;
+        margin-bottom: 16px;
+        line-height: 1.2;
+      }
+
+      .scroll-story__card-text {
+        font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+        color: rgba(0, 0, 0, 0.7);
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .scroll-story__divider {
+        height: 4px;
+        width: 80px;
+        background: #000000;
+        border-radius: 2px;
+      }
+
+      /* Text 3: 5-Fold Ensemble (Right) */
+      .scroll-story__text--3 {
+        top: 50%;
+        right: clamp(20px, 5vw, 80px);
+        transform: translateY(-50%) translateX(30px);
+        max-width: min(450px, 40vw);
+      }
+
+      .scroll-story__text--3.visible {
+        transform: translateY(-50%) translateX(0);
+      }
+
+      .scroll-story__card-title--cyan {
+        color: #000000;
+      }
+
+      .scroll-story__ensemble-dots {
+        display: flex;
+        gap: 12px;
+        margin-top: 20px;
+      }
+
+      .scroll-story__ensemble-dot {
+        width: 16px;
+        height: 16px;
+        background: #000000;
+        border-radius: 50%;
+        animation: scrollStoryPulse 2s ease-in-out infinite;
+      }
+
+      .scroll-story__ensemble-dot:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .scroll-story__ensemble-dot:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .scroll-story__ensemble-dot:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      .scroll-story__ensemble-dot:nth-child(4) {
+        animation-delay: 0.6s;
+      }
+      .scroll-story__ensemble-dot:nth-child(5) {
+        animation-delay: 0.8s;
+      }
+
+      @keyframes scrollStoryPulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.6;
+        }
+        50% {
+          transform: scale(1.3);
+          opacity: 1;
+        }
+      }
+
+      /* Text 4: Signal Reconstruction (Center) */
+      .scroll-story__text--4 {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.95);
+        max-width: min(600px, 85vw);
+        text-align: center;
+      }
+
+      .scroll-story__text--4.visible {
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      .scroll-story__stats {
+        display: flex;
+        justify-content: center;
+        gap: clamp(20px, 4vw, 50px);
+        margin-top: 24px;
+        flex-wrap: wrap;
+      }
+
+      .scroll-story__stat {
+        text-align: center;
+      }
+
+      .scroll-story__stat-value {
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+        font-weight: 800;
+        color: #000000;
+      }
+
+      .scroll-story__stat-label {
+        font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+        color: rgba(0, 0, 0, 0.6);
+        margin-top: 4px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .scroll-story__stat-divider {
+        width: 1px;
+        height: 60px;
+        background: rgba(0, 0, 0, 0.2);
+        align-self: center;
+      }
+
+      /* Text 5: 12-Lead Analysis (Bottom Left) */
+      .scroll-story__text--5 {
+        bottom: clamp(40px, 8vh, 100px);
+        left: clamp(20px, 5vw, 80px);
+        transform: translateY(20px);
+        max-width: min(500px, 45vw);
+      }
+
+      .scroll-story__text--5.visible {
+        transform: translateY(0);
+      }
+
+      .scroll-story__leads-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+        margin-top: 20px;
+      }
+
+      .scroll-story__lead-badge {
+        background: rgba(0, 0, 0, 0.05);
+        border: 2px solid rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        padding: 8px 4px;
+        text-align: center;
+        font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+        font-weight: 600;
+        color: #000000;
+        transition: all 0.3s ease;
+      }
+
+      .scroll-story__lead-badge:hover {
+        background: rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+
+      /* Text 6: CTA Section (Center) */
+      .scroll-story__text--6 {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) translateY(30px);
+        text-align: center;
+        width: 90%;
+        max-width: 700px;
+      }
+
+      .scroll-story__text--6.visible {
+        transform: translate(-50%, -50%) translateY(0);
+      }
+
+      .scroll-story__cta-title {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 800;
+        color: #000000;
+        margin-bottom: 16px;
+        line-height: 1.2;
+      }
+
+      .scroll-story__cta-subtitle {
+        font-size: clamp(0.95rem, 2vw, 1.2rem);
+        color: rgba(0, 0, 0, 0.7);
+        margin-bottom: 40px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .scroll-story__cta-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: #000000;
+        color: #fff;
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        font-weight: 700;
+        padding: 18px 40px;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        animation: scrollStoryFloat 3s ease-in-out infinite;
+      }
+
+      .scroll-story__cta-button:hover {
+        transform: scale(1.05) translateY(-3px);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+      }
+
+      .scroll-story__cta-arrow {
+        font-size: 1.3em;
+        animation: scrollStoryBounce 2s ease-in-out infinite;
+      }
+
+      @keyframes scrollStoryFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      @keyframes scrollStoryBounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(5px);
+        }
+      }
+
+      /* Transition Zone */
+      .scroll-story__transition {
+        height: 20vh;
+        background: linear-gradient(to bottom, transparent 0%, #1a1a2e 100%);
+        position: relative;
+        z-index: 10;
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 1024px) {
+        .scroll-story__text--2,
+        .scroll-story__text--3 {
+          max-width: min(400px, 45vw);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .scroll-story {
+          height: 600vh;
+        }
+
+        .scroll-story__text--2,
+        .scroll-story__text--3,
+        .scroll-story__text--5 {
+          left: 50%;
+          right: auto;
+          transform: translate(-50%, -50%);
+          max-width: 90vw;
+          text-align: center;
+        }
+
+        .scroll-story__text--2.visible,
+        .scroll-story__text--3.visible {
+          transform: translate(-50%, -50%);
+        }
+
+        .scroll-story__text--5 {
+          bottom: auto;
+          top: 50%;
+        }
+
+        .scroll-story__text--5.visible {
+          transform: translate(-50%, -50%);
+        }
+
+        .scroll-story__divider {
+          margin: 0 auto;
+        }
+
+        .scroll-story__ensemble-dots {
+          justify-content: center;
+        }
+
+        .scroll-story__leads-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+
+        .scroll-story__stat-divider {
+          display: none;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .scroll-story__leads-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .scroll-story__cta-button {
+          padding: 16px 32px;
+        }
+      }
+
+      /* Hide upload section initially (controlled by JS) */
+      #upload-section-wrapper {
+        opacity: 1;
+        transition: opacity 0.5s ease;
+      }
+
+      /* ═══════════════════════════════════════════════════════════════════
+         END SCROLL STORY SECTION
+         ═══════════════════════════════════════════════════════════════════ */
 
       .container {
         max-width: 1200px;
@@ -40,29 +517,26 @@
       header h1 {
         font-size: 2.5rem;
         margin-bottom: 10px;
-        background: linear-gradient(90deg, #00d4ff, #7c3aed);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        color: #000000;
       }
 
       header p {
-        color: #94a3b8;
+        color: #666666;
         font-size: 1.1rem;
       }
 
       /* Upload Section */
       .upload-section {
-        background: rgba(255, 255, 255, 0.05);
+        background: #ffffff;
         border-radius: 20px;
         padding: 40px;
         margin-bottom: 30px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(10px);
       }
 
       .upload-area {
-        border: 2px dashed rgba(124, 58, 237, 0.5);
+        border: 2px dashed rgba(0, 0, 0, 0.3);
         border-radius: 15px;
         padding: 60px 40px;
         text-align: center;
@@ -73,8 +547,8 @@
 
       .upload-area:hover,
       .upload-area.dragover {
-        border-color: #7c3aed;
-        background: rgba(124, 58, 237, 0.1);
+        border-color: #000000;
+        background: rgba(0, 0, 0, 0.05);
       }
 
       .upload-area input[type="file"] {
@@ -98,7 +572,7 @@
       }
 
       .upload-area p {
-        color: #94a3b8;
+        color: #666666;
       }
 
       /* Preview Section */
@@ -121,7 +595,7 @@
       .preview-image {
         flex: 1;
         min-width: 300px;
-        background: rgba(0, 0, 0, 0.3);
+        background: rgba(0, 0, 0, 0.05);
         border-radius: 15px;
         padding: 15px;
       }
@@ -137,7 +611,7 @@
       }
 
       .file-info {
-        background: rgba(0, 0, 0, 0.2);
+        background: rgba(0, 0, 0, 0.05);
         border-radius: 10px;
         padding: 20px;
         margin-bottom: 20px;
@@ -145,11 +619,11 @@
 
       .file-info p {
         margin: 8px 0;
-        color: #94a3b8;
+        color: #666666;
       }
 
       .file-info span {
-        color: #fff;
+        color: #000000;
         font-weight: 500;
       }
 
@@ -165,7 +639,7 @@
       }
 
       .btn-primary {
-        background: linear-gradient(135deg, #7c3aed, #00d4ff);
+        background: #000000;
         color: #fff;
         width: 100%;
       }
@@ -181,13 +655,14 @@
       }
 
       .btn-secondary {
-        background: rgba(255, 255, 255, 0.1);
-        color: #fff;
+        background: rgba(0, 0, 0, 0.05);
+        color: #000000;
         margin-right: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
       }
 
       .btn-secondary:hover {
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(0, 0, 0, 0.1);
       }
 
       /* Processing State */
@@ -204,8 +679,8 @@
       .spinner {
         width: 60px;
         height: 60px;
-        border: 4px solid rgba(255, 255, 255, 0.1);
-        border-top-color: #7c3aed;
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-top-color: #000000;
         border-radius: 50%;
         animation: spin 1s linear infinite;
         margin: 0 auto 20px;
@@ -222,16 +697,16 @@
       }
 
       .processing p {
-        color: #94a3b8;
+        color: #666666;
       }
 
       /* Results Section */
       .results-section {
         display: none;
-        background: rgba(255, 255, 255, 0.05);
+        background: #ffffff;
         border-radius: 20px;
         padding: 40px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(10px);
       }
 
@@ -264,19 +739,20 @@
       .results-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
+        gap: 10px;
         margin-bottom: 30px;
       }
 
       .result-card {
-        background: rgba(0, 0, 0, 0.2);
+        background: rgba(0, 0, 0, 0.05);
         border-radius: 15px;
         padding: 20px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
       }
 
       .result-card h4 {
         margin-bottom: 15px;
-        color: #00d4ff;
+        color: #000000;
       }
 
       .waveform-image {
@@ -293,20 +769,20 @@
       }
 
       .metadata-item {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(0, 0, 0, 0.03);
         padding: 12px;
         border-radius: 8px;
       }
 
       .metadata-item label {
         font-size: 0.8rem;
-        color: #94a3b8;
+        color: #666666;
         display: block;
       }
 
       .metadata-item span {
         font-weight: 600;
-        color: #fff;
+        color: #000000;
       }
 
       /* Download Links */
@@ -318,8 +794,8 @@
       }
 
       .download-link {
-        background: rgba(124, 58, 237, 0.2);
-        color: #a78bfa;
+        background: rgba(0, 0, 0, 0.1);
+        color: #000000;
         padding: 10px 20px;
         border-radius: 8px;
         text-decoration: none;
@@ -327,20 +803,22 @@
         display: flex;
         align-items: center;
         gap: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
       }
 
       .download-link:hover {
-        background: rgba(124, 58, 237, 0.4);
-        color: #fff;
+        background: rgba(0, 0, 0, 0.2);
+        color: #000000;
       }
 
       /* CSV Data Table */
       .csv-section {
         display: none;
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(0, 0, 0, 0.03);
         border-radius: 15px;
         padding: 20px;
         margin: 20px 0;
+        border: 1px solid rgba(0, 0, 0, 0.1);
       }
 
       .csv-section.show {
@@ -348,23 +826,24 @@
       }
 
       .csv-section h4 {
-        color: #00d4ff;
+        color: #000000;
         margin-bottom: 15px;
       }
 
       .csv-info {
-        color: #94a3b8;
+        color: #666666;
         margin-bottom: 15px;
         font-size: 0.9rem;
       }
 
       .csv-table-container {
         overflow-x: auto;
-        background: rgba(0, 0, 0, 0.2);
+        background: #ffffff;
         border-radius: 10px;
         padding: 10px;
         max-height: 400px;
         overflow-y: auto;
+        border: 1px solid rgba(0, 0, 0, 0.2);
       }
 
       .csv-table {
@@ -375,23 +854,26 @@
       }
 
       .csv-table th {
-        background: rgba(124, 58, 237, 0.3);
-        color: #a78bfa;
+        background: #ffffff;
+        color: #000000;
         padding: 8px;
         text-align: left;
         position: sticky;
         top: 0;
         z-index: 10;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        font-weight: 600;
       }
 
       .csv-table td {
         padding: 6px 8px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        color: #e2e8f0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        color: #000000;
+        background: #ffffff;
       }
 
       .csv-table tr:hover {
-        background: rgba(124, 58, 237, 0.1);
+        background: rgba(0, 0, 0, 0.08);
       }
 
       /* Error State */
@@ -439,161 +921,551 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <header>
-        <h1>🫀 ECG Digitization</h1>
-        <p>Convert paper ECG scans into digital signals using AI</p>
-      </header>
+    <!-- ═══════════════════════════════════════════════════════════════════
+         SCROLL STORY SECTION - Premium Scrollytelling Intro
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="scroll-story" id="scrollStory">
+      <!-- Sticky Canvas Container -->
+      <div class="scroll-story__canvas-container">
+        <canvas class="scroll-story__canvas" id="scrollStoryCanvas"></canvas>
 
-      <!-- Upload Section -->
-      <section class="upload-section" id="uploadSection">
-        <div class="upload-area" id="uploadArea">
-          <input type="file" id="fileInput" accept="image/*" />
-          <div class="upload-icon">📤</div>
-          <h3>Drop your ECG image here</h3>
-          <p>or click to browse (PNG, JPG, JPEG, BMP, TIFF)</p>
+        <!-- Loading Spinner -->
+        <div class="scroll-story__loader" id="scrollStoryLoader">
+          <div class="scroll-story__loader-spinner"></div>
+          <div class="scroll-story__loader-text">Loading Experience</div>
+          <div class="scroll-story__loader-progress" id="scrollStoryProgress">
+            0 / 240 frames
+          </div>
         </div>
 
-        <!-- Preview -->
-        <div class="preview-section" id="previewSection">
-          <div class="preview-container">
-            <div class="preview-image">
-              <img id="previewImg" src="" alt="ECG Preview" />
+        <!-- Text 1: Hero Title (0-15% scroll) -->
+        <div
+          class="scroll-story__text scroll-story__text--1 visible"
+          id="scrollText1"
+        >
+          <div class="scroll-story__hero-badge">AI-POWERED ANALYSIS</div>
+          <h1 class="scroll-story__hero-title">ECG Digitization</h1>
+          <p class="scroll-story__hero-subtitle">
+            Transform Paper Records into Digital Signals
+          </p>
+        </div>
+
+        <!-- Text 2: Paper to Pixels (18-35% scroll) -->
+        <div class="scroll-story__text scroll-story__text--2" id="scrollText2">
+          <div class="scroll-story__card">
+            <h2 class="scroll-story__card-title">From Paper to Pixels</h2>
+            <p class="scroll-story__card-text">
+              Advanced AI analyzes your ECG scan with medical-grade precision,
+              extracting every detail from the original recording.
+            </p>
+            <div class="scroll-story__divider"></div>
+          </div>
+        </div>
+
+        <!-- Text 3: 5-Fold Ensemble (38-55% scroll) -->
+        <div class="scroll-story__text scroll-story__text--3" id="scrollText3">
+          <div class="scroll-story__card">
+            <h2 class="scroll-story__card-title scroll-story__card-title--cyan">
+              5-Fold Ensemble
+            </h2>
+            <p class="scroll-story__card-text">
+              Deep learning combines five neural networks for maximum accuracy
+              and reliability in signal extraction.
+            </p>
+            <div class="scroll-story__ensemble-dots">
+              <div class="scroll-story__ensemble-dot"></div>
+              <div class="scroll-story__ensemble-dot"></div>
+              <div class="scroll-story__ensemble-dot"></div>
+              <div class="scroll-story__ensemble-dot"></div>
+              <div class="scroll-story__ensemble-dot"></div>
             </div>
-            <div class="preview-info">
-              <div class="file-info">
-                <p>📁 File: <span id="fileName">-</span></p>
-                <p>📐 Size: <span id="fileSize">-</span></p>
-                <p>🖼️ Type: <span id="fileType">-</span></p>
+          </div>
+        </div>
+
+        <!-- Text 4: Signal Reconstruction (58-75% scroll) -->
+        <div class="scroll-story__text scroll-story__text--4" id="scrollText4">
+          <div class="scroll-story__card">
+            <h2 class="scroll-story__card-title">Signal Reconstruction</h2>
+            <p class="scroll-story__card-text">
+              Precise vectorization converts pixels to clinical-quality
+              waveforms with exceptional fidelity.
+            </p>
+            <div class="scroll-story__stats">
+              <div class="scroll-story__stat">
+                <div class="scroll-story__stat-value">40ms</div>
+                <div class="scroll-story__stat-label">Time Resolution</div>
               </div>
-              <button class="btn btn-primary" id="processBtn">
-                ⚡ Process ECG
-              </button>
+              <div class="scroll-story__stat-divider"></div>
+              <div class="scroll-story__stat">
+                <div class="scroll-story__stat-value">0.1mV</div>
+                <div class="scroll-story__stat-label">Amplitude Precision</div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Processing State -->
-        <div class="processing" id="processingState">
-          <div class="spinner"></div>
-          <h3>Processing your ECG...</h3>
-          <p>
-            Running nnU-Net 5-fold ensemble inference. This may take 20-60
-            seconds.
-          </p>
-        </div>
-
-        <!-- Error Message -->
-        <div class="error-message" id="errorMessage">
-          <strong>⚠️ Error:</strong> <span id="errorText"></span>
-        </div>
-      </section>
-
-      <!-- Results Section -->
-      <section class="results-section" id="resultsSection">
-        <div class="results-header">
-          <h2>✅ Results</h2>
-          <span class="success-badge" id="successBadge"
-            >Processing Complete</span
-          >
-        </div>
-
-        <!-- Stacked Images: Original → Digitized → Plot -->
-        <!-- Original Image -->
-        <div
-          class="result-card"
-          id="originalCard"
-          style="background: #fff; margin-bottom: 20px"
-        >
-          <h4 style="color: #1a1a2e">📷 Original Input</h4>
-          <img
-            id="originalImg"
-            class="waveform-image"
-            src=""
-            alt="Original ECG"
-            style="
-              width: 100%;
-              height: 400px;
-              object-fit: contain;
-              border-radius: 10px;
-              background: #fff;
-            "
-          />
-        </div>
-
-        <!-- Digitized B/W Image -->
-        <div
-          class="result-card"
-          id="waveformCard"
-          style="background: #fff; margin-bottom: 20px"
-        >
-          <h4 style="color: #1a1a2e">🖤 Digitized Trace (Masked)</h4>
-          <img
-            id="waveformImg"
-            class="waveform-image"
-            src=""
-            alt="Digitized ECG"
-            style="
-              width: 100%;
-              height: 400px;
-              object-fit: contain;
-              border-radius: 10px;
-              background: #fff;
-            "
-          />
-        </div>
-
-        <!-- Plot -->
-        <div
-          class="result-card"
-          id="plotCard"
-          style="background: #fff; margin-bottom: 20px"
-        >
-          <h4 style="color: #1a1a2e">📈 Signal Plot</h4>
-          <img
-            id="plotImg"
-            class="waveform-image"
-            src=""
-            alt="Signal Plot"
-            style="
-              width: 100%;
-              height: 400px;
-              object-fit: contain;
-              border-radius: 10px;
-              background: #fff;
-            "
-          />
-        </div>
-
-        <!-- CSV Data Preview -->
-        <div class="csv-section" id="csvSection">
-          <h4>📊 Digitized Signal Data (CSV Preview)</h4>
-          <p class="csv-info" id="csvInfo">
-            Showing first 10 rows of <span id="totalRows">0</span> total data
-            points
-          </p>
-          <div class="csv-table-container">
-            <table class="csv-table" id="csvTable">
-              <!-- Filled by JS -->
-            </table>
+        <!-- Text 5: 12-Lead Analysis (78-90% scroll) -->
+        <div class="scroll-story__text scroll-story__text--5" id="scrollText5">
+          <div class="scroll-story__card">
+            <h2 class="scroll-story__card-title">12-Lead Analysis</h2>
+            <p class="scroll-story__card-text">
+              Complete digitization of all standard ECG leads for comprehensive
+              cardiac assessment.
+            </p>
+            <div class="scroll-story__leads-grid">
+              <div class="scroll-story__lead-badge">I</div>
+              <div class="scroll-story__lead-badge">II</div>
+              <div class="scroll-story__lead-badge">III</div>
+              <div class="scroll-story__lead-badge">aVR</div>
+              <div class="scroll-story__lead-badge">aVL</div>
+              <div class="scroll-story__lead-badge">aVF</div>
+              <div class="scroll-story__lead-badge">V1</div>
+              <div class="scroll-story__lead-badge">V2</div>
+              <div class="scroll-story__lead-badge">V3</div>
+              <div class="scroll-story__lead-badge">V4</div>
+              <div class="scroll-story__lead-badge">V5</div>
+              <div class="scroll-story__lead-badge">V6</div>
+            </div>
           </div>
         </div>
 
-        <!-- Download Button -->
-        <div class="download-links" id="downloadLinks">
-          <!-- Filled by JS - only waveform download -->
+        <!-- Text 6: CTA Section (93-100% scroll) -->
+        <div class="scroll-story__text scroll-story__text--6" id="scrollText6">
+          <h2 class="scroll-story__cta-title">Ready to Transform Your ECGs?</h2>
+          <p class="scroll-story__cta-subtitle">
+            Experience medical-grade digitization powered by state-of-the-art AI
+          </p>
+          <a
+            href="#upload-section"
+            class="scroll-story__cta-button"
+            id="scrollStoryCTA"
+          >
+            Start Digitizing
+            <span class="scroll-story__cta-arrow">↓</span>
+          </a>
         </div>
+      </div>
+    </section>
 
-        <!-- New Upload Button -->
-        <button class="btn btn-secondary new-upload-btn" id="newUploadBtn">
-          ↩️ Process Another ECG
-        </button>
-      </section>
+    <!-- Transition Zone -->
+    <div class="scroll-story__transition"></div>
+    <!-- ═══════════════════════════════════════════════════════════════════
+         END SCROLL STORY SECTION
+         ═══════════════════════════════════════════════════════════════════ -->
 
-      <footer>
-        <p>ECG Digitization Pipeline • nnU-Net 5-Fold Ensemble • Phase 1</p>
-      </footer>
+    <!-- EXISTING UPLOAD INTERFACE -->
+    <div id="upload-section-wrapper">
+      <div class="container" id="upload-section">
+        <header>
+          <h1>🫀 ECG Digitization</h1>
+          <p>Convert paper ECG scans into digital signals using AI</p>
+        </header>
+
+        <!-- Upload Section -->
+        <section class="upload-section" id="uploadSection">
+          <div class="upload-area" id="uploadArea">
+            <input type="file" id="fileInput" accept="image/*" />
+            <div class="upload-icon">📤</div>
+            <h3>Drop your ECG image here</h3>
+            <p>or click to browse (PNG, JPG, JPEG, BMP, TIFF)</p>
+          </div>
+
+          <!-- Preview -->
+          <div class="preview-section" id="previewSection">
+            <div class="preview-container">
+              <div class="preview-image">
+                <img id="previewImg" src="" alt="ECG Preview" />
+              </div>
+              <div class="preview-info">
+                <div class="file-info">
+                  <p>📁 File: <span id="fileName">-</span></p>
+                  <p>📐 Size: <span id="fileSize">-</span></p>
+                  <p>🖼️ Type: <span id="fileType">-</span></p>
+                </div>
+                <button class="btn btn-primary" id="processBtn">
+                  ⚡ Process ECG
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Processing State -->
+          <div class="processing" id="processingState">
+            <div class="spinner"></div>
+            <h3>Processing your ECG...</h3>
+            <p>
+              Running nnU-Net 5-fold ensemble inference. This may take 20-60
+              seconds.
+            </p>
+          </div>
+
+          <!-- Error Message -->
+          <div class="error-message" id="errorMessage">
+            <strong>⚠️ Error:</strong> <span id="errorText"></span>
+          </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section" id="resultsSection">
+          <div class="results-header">
+            <h2>✅ Results</h2>
+            <span class="success-badge" id="successBadge"
+              >Processing Complete</span
+            >
+          </div>
+
+          <!-- Stacked Images: Original → Digitized → Plot -->
+          <!-- Original Image -->
+          <div
+            class="result-card"
+            id="originalCard"
+            style="background: #fff; margin-bottom: 20px"
+          >
+            <h4 style="color: #1a1a2e">📷 Original Input</h4>
+            <img
+              id="originalImg"
+              class="waveform-image"
+              src=""
+              alt="Original ECG"
+              style="
+                width: 100%;
+                height: 400px;
+                object-fit: contain;
+                border-radius: 10px;
+                background: #fff;
+              "
+            />
+          </div>
+
+          <!-- Digitized B/W Image -->
+          <div
+            class="result-card"
+            id="waveformCard"
+            style="background: #fff; margin-bottom: 20px"
+          >
+            <h4 style="color: #1a1a2e">🖤 Digitized Trace (Masked)</h4>
+            <img
+              id="waveformImg"
+              class="waveform-image"
+              src=""
+              alt="Digitized ECG"
+              style="
+                width: 100%;
+                height: 400px;
+                object-fit: contain;
+                border-radius: 10px;
+                background: #fff;
+              "
+            />
+          </div>
+
+          <!-- Plot -->
+          <div
+            class="result-card"
+            id="plotCard"
+            style="background: #fff; margin-bottom: 20px"
+          >
+            <h4 style="color: #1a1a2e">📈 Signal Plot</h4>
+            <img
+              id="plotImg"
+              class="waveform-image"
+              src=""
+              alt="Signal Plot"
+              style="
+                width: 100%;
+                height: 400px;
+                object-fit: contain;
+                border-radius: 10px;
+                background: #fff;
+              "
+            />
+          </div>
+
+          <!-- CSV Data Preview -->
+          <div class="csv-section" id="csvSection">
+            <h4>📊 Digitized Signal Data (CSV Preview)</h4>
+            <p class="csv-info" id="csvInfo">
+              Showing first 10 rows of <span id="totalRows">0</span> total data
+              points
+            </p>
+            <div class="csv-table-container">
+              <table class="csv-table" id="csvTable">
+                <!-- Filled by JS -->
+              </table>
+            </div>
+          </div>
+
+          <!-- Download Button -->
+          <div class="download-links" id="downloadLinks">
+            <!-- Filled by JS - only waveform download -->
+          </div>
+
+          <!-- New Upload Button -->
+          <button class="btn btn-secondary new-upload-btn" id="newUploadBtn">
+            ↩️ Process Another ECG
+          </button>
+        </section>
+
+        <footer>
+          <p>ECG Digitization Pipeline • nnU-Net 5-Fold Ensemble • Phase 1</p>
+        </footer>
+      </div>
     </div>
+    <!-- End upload-section-wrapper -->
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         SCROLL STORY JAVASCRIPT
+         ═══════════════════════════════════════════════════════════════════ -->
+    <script>
+      // =====================================================================
+      // SCROLL STORY - Frame Animation System
+      // =====================================================================
+      (function () {
+        "use strict";
+
+        // Configuration
+        const FRAME_COUNT = 240;
+        const FRAME_PATH = "frames/";
+        const FRAME_PREFIX = "ezgif-frame-";
+        const FRAME_EXTENSION = ".png";
+
+        // DOM Elements
+        const scrollStory = document.getElementById("scrollStory");
+        const canvas = document.getElementById("scrollStoryCanvas");
+        const ctx = canvas.getContext("2d");
+        const loader = document.getElementById("scrollStoryLoader");
+        const progressText = document.getElementById("scrollStoryProgress");
+        const ctaButton = document.getElementById("scrollStoryCTA");
+
+        // Text overlay elements
+        const textOverlays = {
+          text1: {
+            element: document.getElementById("scrollText1"),
+            start: 0,
+            end: 0.15,
+          },
+          text2: {
+            element: document.getElementById("scrollText2"),
+            start: 0.18,
+            end: 0.35,
+          },
+          text3: {
+            element: document.getElementById("scrollText3"),
+            start: 0.38,
+            end: 0.55,
+          },
+          text4: {
+            element: document.getElementById("scrollText4"),
+            start: 0.58,
+            end: 0.75,
+          },
+          text5: {
+            element: document.getElementById("scrollText5"),
+            start: 0.78,
+            end: 0.9,
+          },
+          text6: {
+            element: document.getElementById("scrollText6"),
+            start: 0.93,
+            end: 1.0,
+          },
+        };
+
+        // State
+        const frames = [];
+        let framesLoaded = 0;
+        let currentFrame = 0;
+        let isLoading = true;
+        let ticking = false;
+
+        // Utility: Pad number with zeros
+        function padNumber(num, size) {
+          let s = String(num);
+          while (s.length < size) s = "0" + s;
+          return s;
+        }
+
+        // Load all frames
+        async function loadFrames() {
+          console.log(
+            "[ScrollStory] Starting to load",
+            FRAME_COUNT,
+            "frames...",
+          );
+
+          const loadPromises = [];
+
+          for (let i = 1; i <= FRAME_COUNT; i++) {
+            const img = new Image();
+            const frameNumber = padNumber(i, 3);
+            img.src = FRAME_PATH + FRAME_PREFIX + frameNumber + FRAME_EXTENSION;
+
+            const loadPromise = new Promise((resolve, reject) => {
+              img.onload = () => {
+                framesLoaded++;
+                if (framesLoaded % 20 === 0 || framesLoaded === FRAME_COUNT) {
+                  console.log(
+                    "[ScrollStory] Loaded",
+                    framesLoaded,
+                    "/",
+                    FRAME_COUNT,
+                    "frames",
+                  );
+                  progressText.textContent =
+                    framesLoaded + " / " + FRAME_COUNT + " frames";
+                }
+                resolve(img);
+              };
+              img.onerror = () => {
+                console.warn("[ScrollStory] Failed to load frame:", i);
+                // Resolve with null to continue loading other frames
+                resolve(null);
+              };
+            });
+
+            loadPromises.push(loadPromise);
+          }
+
+          const loadedImages = await Promise.all(loadPromises);
+
+          // Filter out failed loads and store frames
+          loadedImages.forEach((img, index) => {
+            frames[index] = img;
+          });
+
+          console.log(
+            "[ScrollStory] All frames loaded. Valid frames:",
+            frames.filter((f) => f !== null).length,
+          );
+
+          // Hide loader
+          loader.classList.add("hidden");
+          isLoading = false;
+
+          // Draw first frame
+          if (frames[0]) {
+            drawFrame(0);
+          }
+
+          // Initial text visibility check
+          handleScroll();
+        }
+
+        // Draw frame to canvas
+        function drawFrame(index) {
+          const frame = frames[index];
+          if (!frame) return;
+
+          // Set canvas size to match image
+          if (canvas.width !== frame.width || canvas.height !== frame.height) {
+            canvas.width = frame.width;
+            canvas.height = frame.height;
+          }
+
+          // Clear and draw
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(frame, 0, 0);
+          currentFrame = index;
+        }
+
+        // Update text overlay visibility
+        function updateTextVisibility(progress) {
+          Object.values(textOverlays).forEach((overlay) => {
+            if (!overlay.element) return;
+
+            const isVisible =
+              progress >= overlay.start && progress <= overlay.end;
+
+            if (isVisible) {
+              overlay.element.classList.add("visible");
+            } else {
+              overlay.element.classList.remove("visible");
+            }
+          });
+        }
+
+        // Handle scroll event
+        function handleScroll() {
+          if (isLoading) return;
+
+          // Get scroll progress within the scroll story section
+          const rect = scrollStory.getBoundingClientRect();
+          const scrollHeight = scrollStory.offsetHeight - window.innerHeight;
+
+          // Calculate progress (0 to 1)
+          let progress = -rect.top / scrollHeight;
+          progress = Math.max(0, Math.min(1, progress));
+
+          // Calculate frame index
+          const frameIndex = Math.min(
+            Math.floor(progress * (FRAME_COUNT - 1)),
+            FRAME_COUNT - 1,
+          );
+
+          // Draw frame if changed
+          if (frameIndex !== currentFrame && frames[frameIndex]) {
+            drawFrame(frameIndex);
+          }
+
+          // Update text visibility
+          updateTextVisibility(progress);
+        }
+
+        // Throttled scroll handler using requestAnimationFrame
+        function onScroll() {
+          if (!ticking) {
+            requestAnimationFrame(() => {
+              handleScroll();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }
+
+        // Smooth scroll to upload section
+        function scrollToUpload(e) {
+          e.preventDefault();
+          const uploadSection = document.getElementById("upload-section");
+          if (uploadSection) {
+            uploadSection.scrollIntoView({ behavior: "smooth" });
+          }
+        }
+
+        // Initialize
+        function init() {
+          console.log("[ScrollStory] Initializing...");
+
+          // Load frames
+          loadFrames();
+
+          // Event listeners
+          window.addEventListener("scroll", onScroll, { passive: true });
+
+          if (ctaButton) {
+            ctaButton.addEventListener("click", scrollToUpload);
+          }
+
+          // Handle resize
+          window.addEventListener("resize", () => {
+            if (frames[currentFrame]) {
+              drawFrame(currentFrame);
+            }
+          });
+
+          console.log("[ScrollStory] Initialization complete");
+        }
+
+        // Start when DOM is ready
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", init);
+        } else {
+          init();
+        }
+      })();
+    </script>
+    <!-- ═══════════════════════════════════════════════════════════════════
+         END SCROLL STORY JAVASCRIPT
+         ═══════════════════════════════════════════════════════════════════ -->
 
     <script>
       // DOM Elements
