@@ -334,6 +334,66 @@
         color: #fff;
       }
 
+      /* CSV Data Table */
+      .csv-section {
+        display: none;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 20px;
+        margin: 20px 0;
+      }
+
+      .csv-section.show {
+        display: block;
+      }
+
+      .csv-section h4 {
+        color: #00d4ff;
+        margin-bottom: 15px;
+      }
+
+      .csv-info {
+        color: #94a3b8;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+      }
+
+      .csv-table-container {
+        overflow-x: auto;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        padding: 10px;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .csv-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+        font-family: "Courier New", monospace;
+      }
+
+      .csv-table th {
+        background: rgba(124, 58, 237, 0.3);
+        color: #a78bfa;
+        padding: 8px;
+        text-align: left;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .csv-table td {
+        padding: 6px 8px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        color: #e2e8f0;
+      }
+
+      .csv-table tr:hover {
+        background: rgba(124, 58, 237, 0.1);
+      }
+
       /* Error State */
       .error-message {
         display: none;
@@ -438,18 +498,62 @@
           >
         </div>
 
-        <!-- Digitized B/W Image - Full Width -->
+        <!-- Comparison Grid: Original vs Digitized (First Row) -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+          "
+        >
+          <!-- Original Image -->
+          <div class="result-card" id="originalCard" style="background: #fff">
+            <h4 style="color: #1a1a2e">📷 Original Input</h4>
+            <img
+              id="originalImg"
+              class="waveform-image"
+              src=""
+              alt="Original ECG"
+              style="
+                width: 100%;
+                max-width: 100%;
+                border-radius: 10px;
+                background: #fff;
+              "
+            />
+          </div>
+
+          <!-- Digitized B/W Image -->
+          <div class="result-card" id="waveformCard" style="background: #fff">
+            <h4 style="color: #1a1a2e">🖤 Digitized Trace (Masked)</h4>
+            <img
+              id="waveformImg"
+              class="waveform-image"
+              src=""
+              alt="Digitized ECG"
+              style="
+                width: 100%;
+                max-width: 100%;
+                border-radius: 10px;
+                background: #fff;
+              "
+            />
+          </div>
+        </div>
+
+        <!-- Plot (Full Width Below) -->
         <div
           class="result-card"
-          id="waveformCard"
-          style="margin-bottom: 20px; background: #fff"
+          id="plotCard"
+          style="background: #fff; margin-bottom: 20px"
         >
-          <h4 style="color: #1a1a2e">🖤 Digitized ECG (Black & White)</h4>
+          <h4 style="color: #1a1a2e">📈 Signal Plot</h4>
           <img
-            id="waveformImg"
+            id="plotImg"
             class="waveform-image"
             src=""
-            alt="Digitized ECG"
+            alt="Signal Plot"
             style="
               width: 100%;
               max-width: 100%;
@@ -457,6 +561,20 @@
               background: #fff;
             "
           />
+        </div>
+
+        <!-- CSV Data Preview -->
+        <div class="csv-section" id="csvSection">
+          <h4>📊 Digitized Signal Data (CSV Preview)</h4>
+          <p class="csv-info" id="csvInfo">
+            Showing first 10 rows of <span id="totalRows">0</span> total data
+            points
+          </p>
+          <div class="csv-table-container">
+            <table class="csv-table" id="csvTable">
+              <!-- Filled by JS -->
+            </table>
+          </div>
         </div>
 
         <!-- Download Button -->
@@ -609,6 +727,12 @@
         uploadSection.style.display = "none";
         resultsSection.classList.add("show");
 
+        // Original image
+        const originalImg = document.getElementById("originalImg");
+        const originalCard = document.getElementById("originalCard");
+        originalImg.src = data.files.original;
+        originalCard.style.display = "block";
+
         // Digitized B/W image
         if (data.files && data.files.digitized) {
           waveformImg.src = data.files.digitized;
@@ -617,10 +741,58 @@
           waveformCard.style.display = "none";
         }
 
-        // Download link - only digitized image
+        // Plot image
+        const plotImg = document.getElementById("plotImg");
+        const plotCard = document.getElementById("plotCard");
+        if (data.files && data.files.plot) {
+          plotImg.src = data.files.plot;
+          plotCard.style.display = "block";
+        } else {
+          plotCard.style.display = "none";
+        }
+
+        // CSV Data Preview
+        const csvSection = document.getElementById("csvSection");
+        const csvTable = document.getElementById("csvTable");
+        const totalRows = document.getElementById("totalRows");
+
+        if (data.csv_preview) {
+          csvSection.classList.add("show");
+          totalRows.textContent = data.csv_preview.total_rows;
+
+          // Build table
+          let tableHTML = "<thead><tr>";
+          data.csv_preview.headers.forEach((header) => {
+            tableHTML += `<th>${header}</th>`;
+          });
+          tableHTML += "</tr></thead><tbody>";
+
+          data.csv_preview.data.forEach((row) => {
+            tableHTML += "<tr>";
+            row.forEach((cell) => {
+              // Format numbers to 4 decimal places if it's a number
+              const value = isNaN(cell) ? cell : parseFloat(cell).toFixed(4);
+              tableHTML += `<td>${value}</td>`;
+            });
+            tableHTML += "</tr>";
+          });
+          tableHTML += "</tbody>";
+
+          csvTable.innerHTML = tableHTML;
+        } else {
+          csvSection.classList.remove("show");
+        }
+
+        // Download links - digitized image, plot, and CSV
         downloadLinks.innerHTML = "";
         if (data.files && data.files.digitized) {
-          addDownloadLink("⬇️ Download Digitized ECG", data.files.digitized);
+          addDownloadLink("🖼️ Download Digitized Image", data.files.digitized);
+        }
+        if (data.files && data.files.plot) {
+          addDownloadLink("📈 Download Plot", data.files.plot);
+        }
+        if (data.files && data.files.csv) {
+          addDownloadLink("📄 Download CSV Data", data.files.csv);
         }
       }
 

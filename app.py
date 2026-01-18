@@ -24,6 +24,10 @@ from datetime import datetime
 from flask import Flask, request, jsonify, send_from_directory, send_file
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
+import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 # ═══════════════════════════════════════════════════════════════════════════════════
 # Configuration
@@ -82,6 +86,69 @@ def run_ecg_digitization(image_path, output_dir):
     return result.returncode == 0, result.stdout, result.stderr
 
 
+def generate_plot_from_csv(csv_path, output_path):
+    """Generate a plot from the CSV data that looks like the original ECG image."""
+    try:
+        # Read CSV data
+        df = pd.read_csv(csv_path)
+        
+        # Get all lead columns (exclude Time_ms)
+        lead_columns = [col for col in df.columns if col != 'Time_ms' and '_mV' in col]
+        
+        if not lead_columns:
+            return False
+        
+        # Create figure with subplots
+        num_leads = len(lead_columns)
+        fig, axes = plt.subplots(num_leads, 1, figsize=(14, 2.5*num_leads), sharex=True)
+        
+        # Handle single lead case
+        if num_leads == 1:
+            axes = [axes]
+        
+        # Plot each lead with proper ECG appearance
+        for idx, lead in enumerate(lead_columns):
+            # Plot the signal normally (positive up, like standard ECG)
+            axes[idx].plot(df['Time_ms'], df[lead], 'k-', linewidth=1.2)
+            
+            # Set ylabel with lead name
+            axes[idx].set_ylabel(lead.replace('_mV', ''), fontsize=11, fontweight='bold')
+            
+            # Add grid like ECG paper
+            axes[idx].grid(True, which='major', alpha=0.3, linestyle='-', linewidth=0.5, color='#d4a373')
+            axes[idx].grid(True, which='minor', alpha=0.15, linestyle='-', linewidth=0.3, color='#d4a373')
+            axes[idx].minorticks_on()
+            
+            # Auto-scale Y-axis to show waveform detail
+            axes[idx].set_xlim(df['Time_ms'].min(), df['Time_ms'].max())
+            axes[idx].margins(y=0.2)  # Add 20% margin for better visibility
+            
+            # Style the axes
+            axes[idx].spines['top'].set_visible(False)
+            axes[idx].spines['right'].set_visible(False)
+            axes[idx].set_facecolor('#fffef8')  # Cream color like ECG paper
+            
+            # Show Y-axis values
+            axes[idx].tick_params(axis='y', labelsize=8)
+            axes[idx].yaxis.set_major_formatter(plt.FormatStrFormatter('%.1f'))
+        
+        # Set common xlabel
+        axes[-1].set_xlabel('Time (ms)', fontsize=11, fontweight='bold')
+        
+        # Add title
+        fig.suptitle('Digitized ECG Signals (from CSV data)', fontsize=14, fontweight='bold', y=0.995)
+        
+        # Adjust layout and save
+        plt.tight_layout()
+        plt.savefig(output_path, dpi=150, bbox_inches='tight', facecolor='white')
+        plt.close()
+        
+        return True
+    except Exception as e:
+        print(f"Error generating plot: {e}")
+        return False
+
+
 # ═══════════════════════════════════════════════════════════════════════════════════
 # Routes
 # ═══════════════════════════════════════════════════════════════════════════════════
@@ -138,17 +205,68 @@ def upload_file():
         'files': {}
     }
     
-    # Find the black & white digitized image in the working/output folder
-    # The digitized file is named: {job_id}_{image_name}_digitized.png
-    image_stem = Path(filename).stem
-    digitized_filename = f"{job_id}_{image_stem}_digitized.png"
-    digitized_path = WORKING_DIR / "output" / digitized_filename
+    # Copy original uploaded image for display
+    original_dest = output_dir / "original.png"
+    shutil.copy(str(upload_path), str(original_dest))
+    response['files']['original'] = f'/results/{job_id}/original.png'
     
-    if digitized_path.exists():
+    # Find the black & white digitized image in the working/output folder
+    # Try multiple patterns to find the digitized file
+    output_folder = WORKING_DIR / "output"
+    digitized_path = None
+    
+    if output_folder.exists():
+        # Look for any file with job_id and "digitized" in the name
+        for file in output_folder.glob(f"{job_id}*digitized*.png"):
+            digitized_path = file
+            break
+        
+        # If not found, try without job_id (some images might not include it)
+        if not digitized_path:
+            image_stem = Path(filename).stem
+            for file in output_folder.glob(f"*{image_stem}*digitized*.png"):
+                digitized_path = file
+                break
+    
+    if digitized_path and digitized_path.exists():
         # Copy the digitized image to our results folder for serving
         dest_path = output_dir / "digitized.png"
         shutil.copy(str(digitized_path), str(dest_path))
         response['files']['digitized'] = f'/results/{job_id}/digitized.png'
+    
+    # Find CSV and metadata in the results subdirectories
+    for item in output_dir.iterdir():
+        if item.is_dir():
+            csv_file = item / "12_lead_signals.csv"
+            metadata_file = item / "metadata.json"
+            
+            if csv_file.exists():
+                # Copy CSV to results folder
+                csv_dest = output_dir / "signals.csv"
+                shutil.copy(str(csv_file), str(csv_dest))
+                response['files']['csv'] = f'/results/{job_id}/signals.csv'
+                
+                # Generate plot from CSV
+                plot_dest = output_dir / "plot.png"
+                if generate_plot_from_csv(csv_file, plot_dest):
+                    response['files']['plot'] = f'/results/{job_id}/plot.png'
+                
+                # Read CSV preview (first 10 rows)
+                import csv as csv_module
+                with open(csv_file, 'r') as f:
+                    reader = csv_module.reader(f)
+                    rows = list(reader)
+                    response['csv_preview'] = {
+                        'headers': rows[0] if rows else [],
+                        'data': rows[1:11] if len(rows) > 1 else [],  # First 10 data rows
+                        'total_rows': len(rows) - 1
+                    }
+            
+            if metadata_file.exists():
+                with open(metadata_file, 'r') as f:
+                    response['metadata'] = json.load(f)
+            
+            break
     
     return jsonify(response)
 
