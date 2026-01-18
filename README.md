@@ -1,9 +1,53 @@
-# ECG Digitization Pipeline - Phase 1 (Terminal Version)
+# ECG Digitization Pipeline - Phase 1
 
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![nnU-Net](https://img.shields.io/badge/nnU--Net-Felix%20Krones%20Fork-green.svg)](https://github.com/FelixKrones/nnUNet)
 
-Digitize paper ECG scans into 12-lead time-series signals using nnU-Net ensemble prediction with 5 trained folds.
+Digitize paper ECG scans into digital signals using nnU-Net ensemble prediction with 5 trained folds.
+
+**Two Ways to Use:**
+
+1. 🌐 **Web Interface** - Easy drag-and-drop interface (recommended)
+2. 💻 **Terminal** - Command-line interface for batch processing
+
+---
+
+## 🚀 Quick Start for New Users (Web Interface)
+
+### Step 1: Install Dependencies
+
+```bash
+# Navigate to the project folder
+cd "path/to/kaggle copy 2"
+
+# Run the setup script
+bash setup.sh
+
+# Install Flask for the web server
+pip install flask flask-cors
+```
+
+### Step 2: Start the Web Server
+
+```bash
+# Set up environment variables and start the server
+export nnUNet_results="$(pwd)/working/nnUNet_results"
+export nnUNet_raw="$(pwd)/working/nnUNet_raw"
+export nnUNet_preprocessed="$(pwd)/working/nnUNet_preprocessed"
+python app.py
+```
+
+### Step 3: Use the Web Interface
+
+1. Open your browser and go to: **http://localhost:8000**
+2. Drag and drop your ECG image or click to browse
+3. Click "Process ECG" button
+4. Wait 20-60 seconds for processing
+5. View and download your digitized ECG!
+
+**That's it!** 🎉
+
+---
 
 ## Overview
 

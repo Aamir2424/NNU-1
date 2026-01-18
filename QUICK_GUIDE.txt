@@ -1,0 +1,66 @@
+╔══════════════════════════════════════════════════════════════╗
+║          ECG DIGITIZATION - SIMPLE SETUP GUIDE              ║
+╚══════════════════════════════════════════════════════════════╝
+
+📌 FIRST TIME SETUP (Do this once):
+────────────────────────────────────────────────────────────────
+
+1. Open Terminal
+
+2. Navigate to project:
+   cd "/path/to/kaggle copy 2"
+   
+   (Replace /path/to/ with your actual folder location!)
+
+3. Install everything:
+   bash setup.sh && pip install flask flask-cors
+
+
+📌 EVERY TIME YOU WANT TO USE IT:
+────────────────────────────────────────────────────────────────
+
+1. Open Terminal
+
+2. Run this ONE command (all on one line):
+
+   cd "/path/to/kaggle copy 2" && export nnUNet_results="$(pwd)/working/nnUNet_results" && export nnUNet_raw="$(pwd)/working/nnUNet_raw" && export nnUNet_preprocessed="$(pwd)/working/nnUNet_preprocessed" && python app.py
+
+3. Open your browser and go to:
+   
+   http://localhost:8000
+
+4. Drag and drop your ECG image
+
+5. Click "Process ECG" button
+
+6. Wait 20-60 seconds
+
+7. Download your digitized ECG!
+
+
+📌 TO STOP THE SERVER:
+────────────────────────────────────────────────────────────────
+
+Press: Ctrl + C (in Terminal)
+
+
+📌 EXAMPLE PATH (macOS):
+────────────────────────────────────────────────────────────────
+
+If your folder is in Downloads:
+cd "/Users/yourname/Downloads/kaggle copy 2"
+
+
+📌 QUICK TROUBLESHOOTING:
+────────────────────────────────────────────────────────────────
+
+Port already in use?
+→ lsof -ti:8000 | xargs kill -9 2>/dev/null
+
+Can't find python?
+→ Try: python3 app.py instead of python app.py
+
+
+Need more help? See START_HERE.md or README.md
+
+╚══════════════════════════════════════════════════════════════╝
