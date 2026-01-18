@@ -98,9 +98,10 @@ def generate_plot_from_csv(csv_path, output_path):
         if not lead_columns:
             return False
         
-        # Create figure with subplots
+        # Create figure matching ECG strip proportions (very wide, short height like ECG paper)
         num_leads = len(lead_columns)
-        fig, axes = plt.subplots(num_leads, 1, figsize=(14, 2.5*num_leads), sharex=True)
+        # ECG strips are typically ~20:4 ratio (wide and short)
+        fig, axes = plt.subplots(num_leads, 1, figsize=(25, 5), sharex=True)
         
         # Handle single lead case
         if num_leads == 1:
@@ -108,39 +109,42 @@ def generate_plot_from_csv(csv_path, output_path):
         
         # Plot each lead with proper ECG appearance
         for idx, lead in enumerate(lead_columns):
-            # Plot the signal normally (positive up, like standard ECG)
-            axes[idx].plot(df['Time_ms'], df[lead], 'k-', linewidth=1.2)
+            # Plot the signal normally (positive up, like standard ECG) - THICKER line
+            axes[idx].plot(df['Time_ms'], df[lead], 'k-', linewidth=2.5)
             
-            # Set ylabel with lead name
-            axes[idx].set_ylabel(lead.replace('_mV', ''), fontsize=11, fontweight='bold')
+            # Set ylabel with lead name - BIGGER font
+            axes[idx].set_ylabel(lead.replace('_mV', ''), fontsize=20, fontweight='bold')
             
-            # Add grid like ECG paper
-            axes[idx].grid(True, which='major', alpha=0.3, linestyle='-', linewidth=0.5, color='#d4a373')
-            axes[idx].grid(True, which='minor', alpha=0.15, linestyle='-', linewidth=0.3, color='#d4a373')
+            # Add grid like ECG paper - THICKER lines
+            axes[idx].grid(True, which='major', alpha=0.4, linestyle='-', linewidth=1.0, color='#d4a373')
+            axes[idx].grid(True, which='minor', alpha=0.2, linestyle='-', linewidth=0.6, color='#d4a373')
             axes[idx].minorticks_on()
             
             # Auto-scale Y-axis to show waveform detail
             axes[idx].set_xlim(df['Time_ms'].min(), df['Time_ms'].max())
             axes[idx].margins(y=0.2)  # Add 20% margin for better visibility
             
-            # Style the axes
+            # Style the axes - THICKER borders
             axes[idx].spines['top'].set_visible(False)
             axes[idx].spines['right'].set_visible(False)
+            axes[idx].spines['left'].set_linewidth(1.5)
+            axes[idx].spines['bottom'].set_linewidth(1.5)
             axes[idx].set_facecolor('#fffef8')  # Cream color like ECG paper
             
-            # Show Y-axis values
-            axes[idx].tick_params(axis='y', labelsize=8)
+            # Show Y-axis values - BIGGER font
+            axes[idx].tick_params(axis='y', labelsize=18, width=1.5, length=6)
+            axes[idx].tick_params(axis='x', labelsize=18, width=1.5, length=6)
             axes[idx].yaxis.set_major_formatter(plt.FormatStrFormatter('%.1f'))
         
-        # Set common xlabel
-        axes[-1].set_xlabel('Time (ms)', fontsize=11, fontweight='bold')
+        # Set common xlabel - BIGGER font
+        axes[-1].set_xlabel('Time (ms)', fontsize=18, fontweight='bold')
         
-        # Add title
-        fig.suptitle('Digitized ECG Signals (from CSV data)', fontsize=14, fontweight='bold', y=0.995)
+        # Add title - BIGGER font
+        fig.suptitle('Digitized ECG Signals (from CSV data)', fontsize=20, fontweight='bold', y=0.98)
         
-        # Adjust layout and save
+        # Adjust layout and save with minimal padding to match ECG strip
         plt.tight_layout()
-        plt.savefig(output_path, dpi=150, bbox_inches='tight', facecolor='white')
+        plt.savefig(output_path, dpi=120, bbox_inches='tight', facecolor='white', pad_inches=0.05)
         plt.close()
         
         return True

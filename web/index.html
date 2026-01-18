@@ -498,51 +498,52 @@
           >
         </div>
 
-        <!-- Comparison Grid: Original vs Digitized (First Row) -->
+        <!-- Stacked Images: Original → Digitized → Plot -->
+        <!-- Original Image -->
         <div
-          style="
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-          "
+          class="result-card"
+          id="originalCard"
+          style="background: #fff; margin-bottom: 20px"
         >
-          <!-- Original Image -->
-          <div class="result-card" id="originalCard" style="background: #fff">
-            <h4 style="color: #1a1a2e">📷 Original Input</h4>
-            <img
-              id="originalImg"
-              class="waveform-image"
-              src=""
-              alt="Original ECG"
-              style="
-                width: 100%;
-                max-width: 100%;
-                border-radius: 10px;
-                background: #fff;
-              "
-            />
-          </div>
-
-          <!-- Digitized B/W Image -->
-          <div class="result-card" id="waveformCard" style="background: #fff">
-            <h4 style="color: #1a1a2e">🖤 Digitized Trace (Masked)</h4>
-            <img
-              id="waveformImg"
-              class="waveform-image"
-              src=""
-              alt="Digitized ECG"
-              style="
-                width: 100%;
-                max-width: 100%;
-                border-radius: 10px;
-                background: #fff;
-              "
-            />
-          </div>
+          <h4 style="color: #1a1a2e">📷 Original Input</h4>
+          <img
+            id="originalImg"
+            class="waveform-image"
+            src=""
+            alt="Original ECG"
+            style="
+              width: 100%;
+              height: 400px;
+              object-fit: contain;
+              border-radius: 10px;
+              background: #fff;
+            "
+          />
         </div>
 
-        <!-- Plot (Full Width Below) -->
+        <!-- Digitized B/W Image -->
+        <div
+          class="result-card"
+          id="waveformCard"
+          style="background: #fff; margin-bottom: 20px"
+        >
+          <h4 style="color: #1a1a2e">🖤 Digitized Trace (Masked)</h4>
+          <img
+            id="waveformImg"
+            class="waveform-image"
+            src=""
+            alt="Digitized ECG"
+            style="
+              width: 100%;
+              height: 400px;
+              object-fit: contain;
+              border-radius: 10px;
+              background: #fff;
+            "
+          />
+        </div>
+
+        <!-- Plot -->
         <div
           class="result-card"
           id="plotCard"
@@ -556,7 +557,8 @@
             alt="Signal Plot"
             style="
               width: 100%;
-              max-width: 100%;
+              height: 400px;
+              object-fit: contain;
               border-radius: 10px;
               background: #fff;
             "

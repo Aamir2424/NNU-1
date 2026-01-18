@@ -1,0 +1,33 @@
+{
+  "input_file": "504dcb35_6.png",
+  "timestamp": "2026-01-18T15:59:43.819115",
+  "pipeline_version": "1.0.0",
+  "leads": {
+    "I": {
+      "snr_db": 35.44341773793292,
+      "quality": "Excellent",
+      "num_samples": 1250,
+      "duration_ms": 2500.0
+    }
+  },
+  "summary": {
+    "total_leads": 1,
+    "average_snr_db": 35.44341773793292,
+    "overall_quality": "Excellent"
+  },
+  "calibration": {
+    "S_x_pixels_per_mm": 8.5,
+    "S_y_pixels_per_mm": 8.3,
+    "paper_speed_mm_per_s": 25,
+    "gain_mm_per_mv": 10,
+    "time_conversion": "1mm = 40ms",
+    "amplitude_conversion": "1mm = 0.10mV"
+  },
+  "model_info": {
+    "folds_used": 5,
+    "ensemble": true,
+    "framework": "nnU-Net (Felix Krones fork)",
+    "dataset": "Dataset001_ECG",
+    "config": "2d"
+  }
+}
