@@ -1,0 +1,10 @@
+{
+  "name": "project-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "start": "echo \"Frontend not initialized yet\" && exit 0",
+    "build": "echo \"Frontend not initialized yet\" && exit 0",
+    "test": "echo \"Frontend not initialized yet\" && exit 0"
+  }
+}

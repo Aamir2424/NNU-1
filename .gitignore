@@ -1,1 +1,30 @@
-working/nnUNet_results/
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Virtual environment
+backend/venv/
+
+# nnUNet large/generated folders (NEVER COMMIT; can be 10-100GB)
+**/nnUNet_raw/
+**/nnUNet_preprocessed/
+**/nnUNet_results/
+
+# Generated working directories/results
+working/
+backend/working/
+**/output-ensemble/
+**/uploads/
+**/input/
+
+# Node
+frontend/node_modules/
+
+# OS
+.DS_Store
+
+# Environment variables
+.env
