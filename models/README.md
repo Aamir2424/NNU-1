@@ -4,7 +4,9 @@ The trained nnU-Net weights are **not committed to git** (they can be 10–100GB
 
 ## Download link
 
-- **Google Drive**: `<PASTE_DRIVE_LINK_HERE>`
+- **Google Drive**: `https://drive.google.com/drive/folders/1fo5rLCdP0IDlba-jFBOXYmQuDVAMLvZ0?q=owner:me%20parent:1fo5rLCdP0IDlba-jFBOXYmQuDVAMLvZ0`
+
+Download the zipped trained model from the link above and extract it.
 
 ## Expected folder on disk
 
@@ -21,6 +23,11 @@ Example expected path:
 From repo root:
 
 ```bash
-bash scripts/download_models.sh "<PASTE_DRIVE_LINK_HERE>"
+bash scripts/download_models.sh "https://drive.google.com/drive/folders/1fo5rLCdP0IDlba-jFBOXYmQuDVAMLvZ0?q=owner:me%20parent:1fo5rLCdP0IDlba-jFBOXYmQuDVAMLvZ0"
 ```
+
+Or manually:
+1. Download the zip file from the Google Drive link
+2. Extract it to the `working/` directory
+3. Ensure the extracted folder structure matches the expected path above
 
